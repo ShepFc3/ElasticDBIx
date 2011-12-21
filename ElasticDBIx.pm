@@ -2,6 +2,8 @@ package ElasticDBIx;
 use strict;
 use warnings;
 use LWP::UserAgent;
+use YAML::Syck;
+use File::Basename;
 use Data::Dumper;
 
 sub is_searchable {
@@ -44,8 +46,17 @@ sub url {
     my $self = shift;
 
     my $type = $self->result_source->name;
+    my $settings = $self->load_yaml;
 
-    return "http://localhost:9200/sos/$type/";
+    return "http://" . $settings->{ host } . ":" . $settings->{ port } . "/" . $settings->{ index } . "/$type/";
+}
+
+sub load_yaml {
+    my $self = shift;
+    my $path = dirname(__FILE__);
+
+    return YAML::Syck::LoadFile("$path/elastic_search.yml")
+        or die "Could not load settings. elastic_search.yml not found";
 }
 
 sub post { 
@@ -54,6 +65,14 @@ sub post {
     my $request = HTTP::Request->new(POST => $url);
     $request->content_type('application/json');
     $request->content($content);
+
+    return $self->user_agent->request($request);
+}
+
+sub http_delete {
+    my ($self, $url) = @_;
+
+    my $request = HTTP::Request->new(DELETE => $url);
 
     return $self->user_agent->request($request);
 }

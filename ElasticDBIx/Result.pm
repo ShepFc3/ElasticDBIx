@@ -25,6 +25,21 @@ sub index {
     return $self->post($self->url, $json);
 }
 
+sub insert {
+    my $self = shift;
+
+    $self->SUPER::insert;
+
+    return do {
+        if ($self->is_searchable) {
+            $self->index;
+        } else {
+            $self;
+        }
+    }
+
+}
+
 sub update {
     my $self = shift;
 
@@ -33,6 +48,21 @@ sub update {
     return do {
         if ($self->is_searchable) {
             $self->index;
+        } else {
+            $self;
+        }
+    }
+
+}
+
+sub delete {
+    my $self = shift;
+
+    $self->SUPER::delete;
+
+    return do {
+        if ($self->is_searchable) {
+            $self->http_delete($self->url);
         } else {
             $self;
         }
