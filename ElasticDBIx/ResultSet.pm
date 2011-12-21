@@ -15,17 +15,18 @@ sub batch_index {
     my $self = shift;
     my $batch_size = shift || 50;
 
-    my ($json, $rows) = ('', 0);
+    my (@json, $rows) = ((), 0);
     
     my @fields = $self->searchable_fields;
     my $results = $self->search(undef, { select => \@fields });
 
     while (my $row = $results->next) {
         $rows++;
-        $json .= $row->build_json;
+        push(@json, $row->build_json);
         if ($rows == $batch_size) {
-            $self->post($self->url, $json); 
-            ($json, $rows) = ('', 0);
+            my $json_doc = join('\n', @json);
+            $self->post($self->url, $json_doc); 
+            (@json, $rows) = ((), 0);
         }
     }
 

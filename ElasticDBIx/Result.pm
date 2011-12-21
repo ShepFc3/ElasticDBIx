@@ -43,10 +43,10 @@ sub build_json {
     my $self = shift;
     my $pk = $self->primary_key;
 
-    my $json =  encode_json({ index => { '_id' => $self->$pk } }) . "\n";
-    $json .= encode_json($self->{ '_column_data' }) . "\n";
+    my @json = (encode_json({ index => { '_id' => $self->$pk } }));
+    push(@json, encode_json($self->{ '_column_data' }));
 
-    return $json;
+    return @json;
 }
 
 1;
