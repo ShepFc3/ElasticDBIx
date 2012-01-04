@@ -1,0 +1,9 @@
+# Batch index all DBIx classes with searchable fields
+$schema->index_all;
+
+# Index all searchable fields for a row
+my $result = $schema->resultset('Artist')->find(1);
+$result->index();
+
+# Batch index all searchable fields within the given resultset
+$schema->resultset('Artist')->batch_index;
