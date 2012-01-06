@@ -9,9 +9,7 @@ use Data::Dumper;
 sub is_searchable {
     my $self = shift;
 
-    my $klass = $self->result_class;
-
-    return UNIVERSAL::can($klass, 'searchable');
+    return scalar $self->searchable_fields;
 }
 
 sub searchable_fields {
@@ -19,18 +17,11 @@ sub searchable_fields {
 
     my $klass = $self->result_class;
     my $cols = $klass->columns_info;
-    my @searchable_fields = $klass->searchable;
-    my @valid_fields;
-    
-    foreach my $field (@searchable_fields) { 
-        if ($cols->{ $field }) {
-            push(@valid_fields, $field);
-        } else {
-            warn "field $field not found in $klass";
-        }
-    }
+    my @searchable_fields = grep {
+        $cols->{ $_ }->{ searchable }
+    } keys %{ $cols };
 
-    return @valid_fields;
+    return @searchable_fields;
 }
 
 sub user_agent {
