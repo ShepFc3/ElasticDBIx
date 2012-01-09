@@ -14,8 +14,9 @@ sub url {
 sub batch_index {
     my $self = shift;
     my $batch_size = shift || 50;
-
     my (@json, $rows) = ((), 0);
+
+    return unless $self->has_searchable; 
     
     my @fields = $self->searchable_fields;
     my $results = $self->search(undef, { select => \@fields });

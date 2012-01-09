@@ -6,7 +6,7 @@ use YAML::Syck;
 use File::Basename;
 use Data::Dumper;
 
-sub is_searchable {
+sub has_searchable {
     my $self = shift;
 
     return scalar $self->searchable_fields;

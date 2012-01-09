@@ -9,8 +9,9 @@ sub index_all {
 
     foreach my $source ($self->sources) {
         my $klass = $self->class($source);
+
         # class and source match needed when the class is not found
-        if ($klass =~ m/($source)/ && UNIVERSAL::can($klass, 'searchable')) {
+        if ($klass =~ m/($source)/ && $klass->isa("ElasticDBIx")) {
             print "Indexing source $source\n";
             $self->resultset($source)->batch_index;
         }

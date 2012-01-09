@@ -17,6 +17,8 @@ sub url {
 sub index {
     my $self = shift;
 
+    return unless $self->has_searchable;
+
     my @fields = $self->searchable_fields;
     my %data = map { $_ => $self->{ '_column_data' }{ $_ } } @fields;
 
@@ -31,7 +33,7 @@ sub insert {
     $self->SUPER::insert;
 
     return do {
-        if ($self->is_searchable) {
+        if ($self->has_searchable) {
             $self->index;
         } else {
             $self;
@@ -46,7 +48,7 @@ sub update {
     $self->SUPER::update(@_);
 
     return do {
-        if ($self->is_searchable) {
+        if ($self->has_searchable) {
             $self->index;
         } else {
             $self;
@@ -61,7 +63,7 @@ sub delete {
     $self->SUPER::delete;
 
     return do {
-        if ($self->is_searchable) {
+        if ($self->has_searchable) {
             $self->http_delete($self->url);
         } else {
             $self;
