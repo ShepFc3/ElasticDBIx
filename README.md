@@ -5,6 +5,9 @@
     $ git submodule update
 
 ## Setup
+### Copy elastic_search.yml.sample to elastic_search.yml
+*edit file to reflect your elastic search settings*  
+
 ### Include the base directory
     use lib '/base/dir/lib';
 *you only need this if lib is already in your path*  
