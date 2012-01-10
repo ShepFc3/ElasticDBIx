@@ -17,7 +17,7 @@
 *you need this if you want to use index_all*  
 
 ### Create ElasticResult 
-**Create a new class that includes ElasticDBIx::Result and DBIx::Class::Core**  
+**Create a new class that includes ElasticDBIx::Result and DBIx::Class::Core**
     package MyApp::ElasticResult;
 
     use strict;
