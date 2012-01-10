@@ -17,8 +17,8 @@
 *you need this if you want to use index_all*  
 
 ### Create ElasticResult 
-**Create a new class that includes ElasticDBIx::Result and DBIx::Class::Core**
-`
+**Create a new class that includes ElasticDBIx::Result and DBIx::Class::Core**  
+
     package MyApp::ElasticResult;
 
     use strict;
@@ -26,7 +26,6 @@
     use base qw(ElasticDBIx::Result DBIx::Class::Core);
 
     1;
-`
 
 ### Use ElasticResult
     use base qw(MyApp::ElasticResult);
