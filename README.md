@@ -27,8 +27,11 @@
 
     1;
 
-### Use ElasticResult
+### Use ElasticResult in your Result class
     use base qw(MyApp::ElasticResult);
+
+### Define searchable columns in your Result class
+    __PACKAGE__->add_columns("id", { searchable => 1 });
 
 ### Create ElasticResultSet (optional)
     package MyApp::ElasticResultSet;
