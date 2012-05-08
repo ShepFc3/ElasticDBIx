@@ -5,6 +5,7 @@ use LWP::UserAgent;
 use YAML::Syck;
 use File::Basename;
 use Data::Dumper;
+use mro 'c3';
 
 sub has_searchable {
     my $self = shift;

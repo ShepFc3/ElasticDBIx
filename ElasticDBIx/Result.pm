@@ -3,19 +3,21 @@ use strict;
 use warnings;
 use JSON;
 use Data::Dumper;
-use base qw(ElasticDBIx DBIx::Class::Row);
+use base qw(ElasticDBIx);
 
 sub url {
     my $self = shift;
 
     my $pk = $self->primary_key;
-    my $url = $self->SUPER::url;
+    my $url = $self->next::method(@_);
 
-    return $url . $self->$pk;
+    return $url . $pk;
 }
 
 sub index {
     my $self = shift;
+
+    print "Indexing...\n";
 
     return unless $self->has_searchable;
 
@@ -30,7 +32,7 @@ sub index {
 sub insert {
     my $self = shift;
 
-    $self->SUPER::insert;
+    $self->next::method(@_);
 
     return do {
         if ($self->has_searchable) {
@@ -39,13 +41,12 @@ sub insert {
             $self;
         }
     }
-
 }
 
 sub update {
     my $self = shift;
 
-    $self->SUPER::update(@_);
+    $self->next::method(@_);
 
     return do {
         if ($self->has_searchable) {
@@ -54,19 +55,19 @@ sub update {
             $self;
         }
     }
-
 }
 
 sub delete {
     my $self = shift;
 
-    $self->SUPER::delete;
+    $self->next::method(@_);
 
     return do {
         if ($self->has_searchable) {
+            print "Deleting...\n";
             $self->http_delete($self->url);
         } else {
-            $self;
+            #$self;
         }
     }
 }
