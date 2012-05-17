@@ -2,7 +2,7 @@ package ElasticDBIx::Schema;
 
 use strict;
 use warnings;
-use base qw(ElasticDBIx DBIx::Class::Schema);
+use base qw(ElasticDBIx);
 
 sub index_all {
     my $self = shift;
@@ -10,8 +10,7 @@ sub index_all {
     foreach my $source ($self->sources) {
         my $klass = $self->class($source);
 
-        # class and source match needed when the class is not found
-        if ($klass =~ m/($source)/ && $klass->isa("ElasticDBIx")) {
+        if ($self->resultset($source)->can("batch_index")) {
             print "Indexing source $source\n";
             $self->resultset($source)->batch_index;
         }
