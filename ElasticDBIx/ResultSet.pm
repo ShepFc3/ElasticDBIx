@@ -14,7 +14,7 @@ sub url {
 sub batch_index {
     print "Batch Indexing...\n";
     my $self = shift;
-    my $batch_size = shift || 50;
+    my $batch_size = shift || 1000;
     my (@json, $rows) = ((), 0);
 
     return unless $self->has_searchable; 
