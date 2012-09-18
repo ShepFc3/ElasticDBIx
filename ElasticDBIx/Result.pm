@@ -17,9 +17,9 @@ sub url {
 sub index {
     my $self = shift;
 
-    print "Indexing...\n";
-
     return unless $self->has_searchable;
+
+    warn "Indexing...\n";
 
     my @fields = $self->searchable_fields;
     my %data = map { $_ => $self->{ '_column_data' }{ $_ } } @fields;
@@ -64,7 +64,7 @@ sub delete {
 
     return do {
         if ($self->has_searchable) {
-            print "Deleting...\n";
+            warn "Deleting...\n";
             $self->http_delete($self->url);
         } else {
             #$self;

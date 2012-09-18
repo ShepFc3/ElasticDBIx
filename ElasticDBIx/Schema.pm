@@ -11,7 +11,7 @@ sub index_all {
         my $klass = $self->class($source);
 
         if ($self->resultset($source)->can("batch_index")) {
-            print "Indexing source $source\n";
+            warn "Indexing source $source\n";
             $self->resultset($source)->batch_index;
         }
     }

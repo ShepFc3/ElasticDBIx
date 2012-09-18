@@ -61,6 +61,16 @@ sub post {
     return $self->user_agent->request($request);
 }
 
+sub get {
+    my ($self, $url, $content) = @_;
+
+    my $request = HTTP::Request->new(GET => $url);
+    $request->content_type('application/json');
+    $request->content($content);
+
+    return $self->user_agent->request($request);
+}
+
 sub http_delete {
     my ($self, $url) = @_;
 

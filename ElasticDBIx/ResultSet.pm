@@ -12,7 +12,7 @@ sub url {
 }
 
 sub batch_index {
-    print "Batch Indexing...\n";
+    warn "Batch Indexing...\n";
     my $self = shift;
     my $batch_size = shift || 1000;
     my (@json, $rows) = ((), 0);
@@ -26,7 +26,7 @@ sub batch_index {
         $rows++;
         push(@json, $row->build_json);
         if ($rows == $batch_size) {
-            print "Batched $rows rows\n";
+            warn "Batched $rows rows\n";
             my $json_doc = join('\n', @json);
             $self->post($self->url, $json_doc); 
             (@json, $rows) = ((), 0);
