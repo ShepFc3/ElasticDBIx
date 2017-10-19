@@ -1,3 +1,6 @@
+# Attention
+This is no longer maintained. Please see the fork: https://github.com/itnode/DBIx-Class-Elasticsearch
+
 ## Installation
 ### Install as a submodule
     $ git submodule add git@github.com:ShepFc3/ElasticDBIx.git lib/ElasticDBIx
